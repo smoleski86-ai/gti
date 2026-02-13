@@ -4,36 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="GTI">
-    <meta name="theme-color" content="#060a10">
+    <meta name="theme-color" content="#f4f5f7">
     <title>Global Threat Index</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #060a10;
-            --bg-card: #0c1219;
-            --bg-card-hover: #101a25;
-            --border: #15202e;
-            --border-bright: #1e3048;
-            --text: #8b949e;
-            --text-bright: #e6edf3;
-            --text-dim: #484f58;
-            --red: #ff4d4d;
-            --red-dim: rgba(255, 77, 77, 0.12);
-            --green: #2ea043;
-            --green-bright: #3fb950;
-            --green-dim: rgba(46, 160, 67, 0.12);
-            --amber: #d29922;
-            --amber-dim: rgba(210, 153, 34, 0.12);
-            --blue: #58a6ff;
-            --blue-dim: rgba(88, 166, 255, 0.12);
-            --war: #ff4d4d;
-            --resource: #e09b24;
-            --conflict: #58a6ff;
+            --bg: #f4f5f7;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f9fafb;
+            --border: #e2e5ea;
+            --border-bright: #d0d4db;
+            --text: #4a5568;
+            --text-bright: #1a202c;
+            --text-dim: #9ca3af;
+            --red: #dc2626;
+            --red-soft: #ef4444;
+            --red-dim: rgba(220, 38, 38, 0.08);
+            --green: #16a34a;
+            --green-bright: #22c55e;
+            --green-dim: rgba(22, 163, 74, 0.08);
+            --amber: #d97706;
+            --amber-dim: rgba(217, 119, 6, 0.08);
+            --blue: #2563eb;
+            --blue-dim: rgba(37, 99, 235, 0.08);
+            --war: #dc2626;
+            --resource: #d97706;
+            --conflict: #2563eb;
         }
 
         body {
@@ -47,16 +48,6 @@
             user-select: none;
             overflow-x: hidden;
             position: relative;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
         }
 
         .header {
@@ -76,19 +67,19 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--green-bright);
-            box-shadow: 0 0 8px rgba(63, 185, 80, 0.5);
+            background: var(--green);
+            box-shadow: 0 0 6px rgba(22, 163, 74, 0.4);
             animation: pulse-pip 3s ease-in-out infinite;
         }
 
         .header-pip.stale {
             background: var(--amber);
-            box-shadow: 0 0 8px rgba(210, 153, 34, 0.5);
+            box-shadow: 0 0 6px rgba(217, 119, 6, 0.4);
         }
 
         .header-pip.offline {
             background: var(--red);
-            box-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
+            box-shadow: 0 0 6px rgba(220, 38, 38, 0.4);
         }
 
         @keyframes pulse-pip {
@@ -99,10 +90,10 @@
         .header h1 {
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 3.5px;
             text-transform: uppercase;
-            color: var(--text-dim);
+            color: var(--text-bright);
         }
 
         .header-time {
@@ -117,7 +108,7 @@
             border-bottom: 1px solid var(--border);
             overflow: hidden;
             white-space: nowrap;
-            background: rgba(12, 18, 25, 0.6);
+            background: var(--bg-card);
         }
 
         .ticker-track {
@@ -125,9 +116,7 @@
             animation: ticker-scroll var(--ticker-duration, 80s) linear infinite;
         }
 
-        .ticker-track:hover {
-            animation-play-state: paused;
-        }
+        .ticker-track:hover { animation-play-state: paused; }
 
         .ticker-item {
             display: inline-flex;
@@ -139,6 +128,7 @@
             color: var(--text);
             border-right: 1px solid var(--border);
             flex-shrink: 0;
+            text-decoration: none;
         }
 
         .ticker-dot {
@@ -153,36 +143,34 @@
             to { transform: translateX(-50%); }
         }
 
-        .metrics {
+        .main-content {
             padding: 20px 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .metric-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 20px;
             position: relative;
             overflow: hidden;
-            transition: background 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
 
         .metric-card::before {
             content: '';
             position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
+            left: 0; top: 0; bottom: 0;
             width: 3px;
-            border-radius: 10px 0 0 10px;
+            border-radius: 12px 0 0 12px;
         }
 
-        .metric-card.war::before { background: var(--war); box-shadow: 0 0 20px var(--red-dim); }
-        .metric-card.resources::before { background: var(--resource); box-shadow: 0 0 20px var(--amber-dim); }
-        .metric-card.conflicts::before { background: var(--conflict); box-shadow: 0 0 20px var(--blue-dim); }
+        .metric-card.war::before { background: var(--war); }
+        .metric-card.resources::before { background: var(--resource); }
+        .metric-card.conflicts::before { background: var(--conflict); }
 
         .metric-head {
             display: flex;
@@ -194,7 +182,7 @@
         .metric-label {
             font-family: 'JetBrains Mono', monospace;
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 2.5px;
             text-transform: uppercase;
             color: var(--text-dim);
@@ -210,10 +198,11 @@
             letter-spacing: 0.5px;
         }
 
-        .metric-body {
+        .metric-top-row {
             display: flex;
             align-items: baseline;
             gap: 14px;
+            margin-bottom: 16px;
         }
 
         .metric-score {
@@ -241,33 +230,88 @@
         }
 
         .metric-delta.up { color: var(--red); }
-        .metric-delta.down { color: var(--green-bright); }
+        .metric-delta.down { color: var(--green); }
         .metric-delta.flat { color: var(--text-dim); }
 
         .metric-direction {
             font-family: 'DM Sans', sans-serif;
             font-size: 9px;
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
 
-        .metric-direction.up { color: rgba(255, 77, 77, 0.6); }
-        .metric-direction.down { color: rgba(63, 185, 80, 0.6); }
+        .metric-direction.up { color: var(--red-soft); }
+        .metric-direction.down { color: var(--green); }
         .metric-direction.flat { color: var(--text-dim); }
 
         .metric-bar-track {
-            height: 2px;
+            height: 3px;
             background: var(--border);
-            border-radius: 1px;
-            margin-top: 18px;
+            border-radius: 2px;
+            margin-bottom: 16px;
             overflow: hidden;
         }
 
         .metric-bar-fill {
             height: 100%;
-            border-radius: 1px;
+            border-radius: 2px;
             transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .headline-list {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        .headline-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 6px;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.15s;
+            border-radius: 6px;
+            margin-left: -6px;
+            margin-right: -6px;
+            color: inherit;
+        }
+
+        .headline-row:hover {
+            background: var(--bg);
+        }
+
+        .headline-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 7px;
+        }
+
+        .headline-text {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: var(--text-bright);
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .headline-row:hover .headline-text {
+            color: var(--blue);
+        }
+
+        .headline-none {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            padding: 8px 0;
         }
 
         .footer {
@@ -303,7 +347,7 @@
         .footer-refresh:active {
             background: var(--bg-card-hover);
             border-color: var(--border-bright);
-            color: var(--text);
+            color: var(--text-bright);
         }
 
         .loading-screen {
@@ -338,8 +382,8 @@
             margin: 0 16px 12px;
             padding: 10px 14px;
             border-radius: 8px;
-            background: rgba(255, 77, 77, 0.06);
-            border: 1px solid rgba(255, 77, 77, 0.15);
+            background: var(--red-dim);
+            border: 1px solid rgba(220, 38, 38, 0.15);
             font-size: 11px;
             color: var(--red);
             text-align: center;
@@ -374,13 +418,9 @@
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════
-//  CONFIGURATION
-// ═══════════════════════════════════════════════════
-
 const CONFIG = {
-    CACHE_KEY: 'gti_cache',
-    HISTORY_KEY: 'gti_history',
+    CACHE_KEY: 'gti_cache_v2',
+    HISTORY_KEY: 'gti_history_v2',
     CACHE_TTL: 4 * 60 * 60 * 1000,
     EMA_ALPHA: 0.3,
     SCORE_MIDPOINT: 15,
@@ -392,10 +432,6 @@ const CONFIG = {
     ],
     SOURCE_NAMES: ['BBC', 'Al Jazeera', 'NPR']
 };
-
-// ═══════════════════════════════════════════════════
-//  PHRASE DICTIONARIES
-// ═══════════════════════════════════════════════════
 
 const DICT = {
     war: {
@@ -523,51 +559,26 @@ const GEO_ENTITIES = [
     'red sea', 'black sea', 'baltic', 'arctic', 'mediterranean'
 ];
 
-// ═══════════════════════════════════════════════════
-//  SCORING ENGINE
-// ═══════════════════════════════════════════════════
+function isExcluded(t) { const h = t.toLowerCase(); return EXCLUSIONS.some(e => h.includes(e)); }
+function hasDampener(t) { const h = t.toLowerCase(); return DAMPENERS.some(d => h.includes(d)); }
+function hasGeoEntity(t) { const h = t.toLowerCase(); return GEO_ENTITIES.some(e => h.includes(e)); }
 
-function isExcluded(headline) {
-    const h = headline.toLowerCase();
-    return EXCLUSIONS.some(ex => h.includes(ex));
-}
-
-function hasDampener(headline) {
-    const h = headline.toLowerCase();
-    return DAMPENERS.some(d => h.includes(d));
-}
-
-function hasGeoEntity(headline) {
-    const h = headline.toLowerCase();
-    return GEO_ENTITIES.some(e => h.includes(e));
-}
-
-function scoreHeadline(headline, category) {
-    const h = headline.toLowerCase();
-    let score = 0;
-    let matched = false;
-
-    const phrases = DICT[category];
-    for (const [phrase, weight] of Object.entries(phrases)) {
-        if (h.includes(phrase)) {
-            score += weight;
-            matched = true;
-        }
+function scoreHeadline(title, category) {
+    const h = title.toLowerCase();
+    let score = 0, matched = false;
+    for (const [phrase, weight] of Object.entries(DICT[category])) {
+        if (h.includes(phrase)) { score += weight; matched = true; }
     }
-
     if (!matched) return 0;
-    if (hasGeoEntity(headline)) score += 1;
-    if (hasDampener(headline)) score *= 0.3;
-
+    if (hasGeoEntity(title)) score += 1;
+    if (hasDampener(title)) score *= 0.3;
     return score;
 }
 
-function sigmoid(x, mid, k) {
-    return 100 / (1 + Math.exp(-k * (x - mid)));
-}
+function sigmoid(x, mid, k) { return 100 / (1 + Math.exp(-k * (x - mid))); }
 
-function computeScores(headlines) {
-    const valid = headlines.filter(h => !isExcluded(h));
+function computeScores(items) {
+    const valid = items.filter(it => !isExcluded(it.title));
     const total = valid.length;
     if (total === 0) return null;
 
@@ -576,252 +587,172 @@ function computeScores(headlines) {
     const scored = [];
 
     for (const cat of categories) {
-        let raw = 0;
-        let hits = 0;
-
-        for (const headline of valid) {
-            const s = scoreHeadline(headline, cat);
-            if (s > 0) {
-                hits++;
-                raw += s;
-                scored.push({ headline, category: cat, score: s });
-            }
+        let raw = 0, hits = 0;
+        for (const item of valid) {
+            const s = scoreHeadline(item.title, cat);
+            if (s > 0) { hits++; raw += s; scored.push({ title: item.title, link: item.link, category: cat, score: s }); }
         }
-
         const volumeFactor = hits / total;
         const adjusted = raw * (1 + volumeFactor * 3);
-
-        results[cat] = {
-            score: Math.round(sigmoid(adjusted, CONFIG.SCORE_MIDPOINT, CONFIG.SCORE_STEEPNESS) * 10) / 10,
-            raw, hits
-        };
+        results[cat] = { score: Math.round(sigmoid(adjusted, CONFIG.SCORE_MIDPOINT, CONFIG.SCORE_STEEPNESS) * 10) / 10, raw, hits };
     }
 
     const unique = [];
     const seen = new Set();
     scored.sort((a, b) => b.score - a.score);
-    for (const s of scored) {
-        if (!seen.has(s.headline)) {
-            seen.add(s.headline);
-            unique.push(s);
-        }
-    }
+    for (const s of scored) { if (!seen.has(s.title)) { seen.add(s.title); unique.push(s); } }
 
-    return {
-        war: results.war,
-        resources: results.resources,
-        conflicts: results.conflicts,
-        total,
-        ticker: unique.slice(0, 24),
-        timestamp: Date.now()
-    };
+    const grouped = { war: [], resources: [], conflicts: [] };
+    for (const s of unique) { if (grouped[s.category].length < 6) grouped[s.category].push(s); }
+
+    return { war: results.war, resources: results.resources, conflicts: results.conflicts, total, ticker: unique.slice(0, 24), headlines: grouped, timestamp: Date.now() };
 }
 
-// ═══════════════════════════════════════════════════
-//  EMA SMOOTHING
-// ═══════════════════════════════════════════════════
-
-function getHistory() {
-    try { return JSON.parse(localStorage.getItem(CONFIG.HISTORY_KEY)); }
-    catch { return null; }
-}
-
-function saveHistory(data) {
-    try { localStorage.setItem(CONFIG.HISTORY_KEY, JSON.stringify(data)); }
-    catch {}
-}
+function getHistory() { try { return JSON.parse(localStorage.getItem(CONFIG.HISTORY_KEY)); } catch { return null; } }
+function saveHistory(d) { try { localStorage.setItem(CONFIG.HISTORY_KEY, JSON.stringify(d)); } catch {} }
 
 function applyEMA(current, history) {
     const a = CONFIG.EMA_ALPHA;
     const result = { ...current };
-
     for (const cat of ['war', 'resources', 'conflicts']) {
         if (history && history[cat] && typeof history[cat].ema === 'number') {
             const prev = history[cat].ema;
             const ema = a * current[cat].score + (1 - a) * prev;
-            result[cat] = { ...current[cat],
-                ema: Math.round(ema * 10) / 10,
-                delta: Math.round((ema - prev) * 10) / 10,
-                prev
-            };
+            result[cat] = { ...current[cat], ema: Math.round(ema * 10) / 10, delta: Math.round((ema - prev) * 10) / 10, prev };
         } else {
-            result[cat] = { ...current[cat],
-                ema: current[cat].score,
-                delta: 0,
-                prev: current[cat].score
-            };
+            result[cat] = { ...current[cat], ema: current[cat].score, delta: 0, prev: current[cat].score };
         }
     }
     return result;
 }
 
 // ═══════════════════════════════════════════════════
-//  DATA FETCHING — multi-proxy with fallback chain
+//  FETCHING — 5 proxy fallback chain
 // ═══════════════════════════════════════════════════
 
-// Proxy 1: rss2json
 async function fetchViaRSS2JSON(url) {
-    const proxy = `https://api.rss2json.com/api.json?rss_url=${encodeURIComponent(url)}`;
-    const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
-    if (!resp.ok) throw new Error('rss2json HTTP ' + resp.status);
-    const data = await resp.json();
-    if (data.status !== 'ok' || !data.items) throw new Error('rss2json bad data');
-    return data.items.map(i => i.title).filter(Boolean);
+    const r = await fetch(`https://api.rss2json.com/api.json?rss_url=${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    if (d.status !== 'ok' || !d.items) throw new Error('bad');
+    return d.items.map(i => ({ title: i.title || '', link: i.link || '' })).filter(i => i.title);
 }
 
-// Proxy 2: allorigins
 async function fetchViaAllOrigins(url) {
-    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-    const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
-    if (!resp.ok) throw new Error('allorigins HTTP ' + resp.status);
-    const data = await resp.json();
-    if (!data.contents) throw new Error('allorigins no contents');
-    return parseTitlesFromXML(data.contents);
+    const r = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    if (!d.contents) throw new Error('empty');
+    return parseItemsFromXML(d.contents);
 }
 
-// Proxy 3: corsproxy.io
 async function fetchViaCorsProxy(url) {
-    const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-    const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
-    if (!resp.ok) throw new Error('corsproxy HTTP ' + resp.status);
-    const text = await resp.text();
-    return parseTitlesFromXML(text);
+    const r = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error(r.status);
+    return parseItemsFromXML(await r.text());
 }
 
-// Proxy 4: cors.sh
-async function fetchViaCorsSH(url) {
-    const resp = await fetch(`https://proxy.cors.sh/${url}`, {
-        headers: { 'x-cors-api-key': 'temp_a1b2c3d4e5f6' },
-        signal: AbortSignal.timeout(8000)
-    });
-    if (!resp.ok) throw new Error('cors.sh HTTP ' + resp.status);
-    const text = await resp.text();
-    return parseTitlesFromXML(text);
-}
-
-// Proxy 5: thingproxy
 async function fetchViaThingProxy(url) {
-    const proxy = `https://thingproxy.freeboard.io/fetch/${url}`;
-    const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
-    if (!resp.ok) throw new Error('thingproxy HTTP ' + resp.status);
-    const text = await resp.text();
-    return parseTitlesFromXML(text);
+    const r = await fetch(`https://thingproxy.freeboard.io/fetch/${url}`, { signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error(r.status);
+    return parseItemsFromXML(await r.text());
 }
 
-// XML parser helper
-function parseTitlesFromXML(xml) {
+async function fetchViaCorsSH(url) {
+    const r = await fetch(`https://proxy.cors.sh/${url}`, { headers: { 'x-cors-api-key': 'temp_a1b2c3d4e5f6' }, signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error(r.status);
+    return parseItemsFromXML(await r.text());
+}
+
+function parseItemsFromXML(xml) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xml, 'text/xml');
-    const titles = Array.from(doc.querySelectorAll('item title'))
-        .map(el => el.textContent).filter(Boolean);
-    if (titles.length === 0) {
-        // Try regex fallback for malformed XML
-        const matches = [...xml.matchAll(/<title[^>]*><!\[CDATA\[(.*?)\]\]><\/title>/gi)];
-        if (matches.length > 0) return matches.map(m => m[1]).filter(Boolean);
-        const matches2 = [...xml.matchAll(/<title[^>]*>(.*?)<\/title>/gi)];
-        return matches2.map(m => m[1]).filter(Boolean).slice(1); // skip channel title
+    const items = Array.from(doc.querySelectorAll('item'));
+    if (items.length > 0) {
+        return items.map(el => {
+            const tEl = el.querySelector('title');
+            const lEl = el.querySelector('link');
+            const title = tEl ? tEl.textContent.trim() : '';
+            let link = lEl ? lEl.textContent.trim() : '';
+            if (!link && lEl && lEl.nextSibling) link = lEl.nextSibling.textContent.trim();
+            return { title, link };
+        }).filter(i => i.title);
     }
-    return titles;
+    const results = [];
+    const blocks = xml.split(/<item[\s>]/i).slice(1);
+    for (const b of blocks) {
+        const tm = b.match(/<title[^>]*>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/i);
+        const lm = b.match(/<link[^>]*>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/link>/i);
+        if (tm && tm[1]) results.push({ title: tm[1].trim(), link: (lm && lm[1]) ? lm[1].trim() : '' });
+    }
+    return results;
 }
 
-// Try all proxies in sequence until one works
 async function fetchFeed(url) {
-    const strategies = [
-        fetchViaRSS2JSON,
-        fetchViaAllOrigins,
-        fetchViaCorsProxy,
-        fetchViaThingProxy,
-        fetchViaCorsSH
-    ];
-
-    for (const strategy of strategies) {
-        try {
-            const result = await strategy(url);
-            if (result && result.length > 0) return result;
-        } catch (e) {
-            // Continue to next proxy
-        }
+    for (const fn of [fetchViaRSS2JSON, fetchViaAllOrigins, fetchViaCorsProxy, fetchViaThingProxy, fetchViaCorsSH]) {
+        try { const r = await fn(url); if (r && r.length > 0) return r; } catch {}
     }
     return [];
 }
 
 async function fetchAllHeadlines() {
     const results = await Promise.allSettled(CONFIG.FEEDS.map(fetchFeed));
-    const headlines = [];
-    const sources = [];
-
-    results.forEach((r, i) => {
-        if (r.status === 'fulfilled' && r.value.length > 0) {
-            headlines.push(...r.value);
-            sources.push(CONFIG.SOURCE_NAMES[i]);
-        }
-    });
-
-    return { headlines, sources };
+    const items = [], sources = [];
+    results.forEach((r, i) => { if (r.status === 'fulfilled' && r.value.length > 0) { items.push(...r.value); sources.push(CONFIG.SOURCE_NAMES[i]); } });
+    return { items, sources };
 }
 
-// ═══════════════════════════════════════════════════
-//  CACHE
-// ═══════════════════════════════════════════════════
-
-function getCache() {
-    try {
-        const d = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY));
-        return (d && Date.now() - d.timestamp < CONFIG.CACHE_TTL) ? d : null;
-    } catch { return null; }
-}
-
-function getStaleCache() {
-    try { return JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY)); }
-    catch { return null; }
-}
-
-function setCache(data) {
-    try { localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data)); }
-    catch {}
-}
+function getCache() { try { const d = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY)); return (d && Date.now() - d.timestamp < CONFIG.CACHE_TTL) ? d : null; } catch { return null; } }
+function getStaleCache() { try { return JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY)); } catch { return null; } }
+function setCache(d) { try { localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(d)); } catch {} }
 
 // ═══════════════════════════════════════════════════
 //  RENDERING
 // ═══════════════════════════════════════════════════
 
 const CAT_META = {
-    war:       { label: 'Acts of War',         icon: '⚔',  accent: 'var(--war)' },
-    resources: { label: 'Resource Depletion',   icon: '⛽', accent: 'var(--resource)' },
-    conflicts: { label: 'Conflicts',            icon: '⚡', accent: 'var(--conflict)' }
+    war:       { label: 'Acts of War',       icon: '⚔',  color: 'var(--war)' },
+    resources: { label: 'Resource Depletion', icon: '⛽', color: 'var(--resource)' },
+    conflicts: { label: 'Conflicts',          icon: '⚡', color: 'var(--conflict)' }
 };
 
-function severityColor(score) {
-    if (score < 30) return 'var(--green-bright)';
-    if (score < 55) return 'var(--amber)';
-    if (score < 75) return 'var(--red)';
-    return '#ff1a1a';
+function severityColor(s) {
+    if (s < 30) return 'var(--green)';
+    if (s < 55) return 'var(--amber)';
+    if (s < 75) return 'var(--red)';
+    return '#b91c1c';
 }
 
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
 function buildTicker(items) {
-    if (!items || items.length === 0) return '';
-    const colorMap = { war: 'var(--war)', resources: 'var(--resource)', conflicts: 'var(--conflict)' };
-
-    const html = items.map(it =>
-        `<div class="ticker-item"><span class="ticker-dot" style="background:${colorMap[it.category]}"></span>${it.headline}</div>`
-    ).join('');
-
+    if (!items || !items.length) return '';
+    const cm = { war: 'var(--war)', resources: 'var(--resource)', conflicts: 'var(--conflict)' };
+    const html = items.map(it => {
+        const inner = `<span class="ticker-dot" style="background:${cm[it.category]}"></span>${esc(it.title)}`;
+        return it.link
+            ? `<a href="${esc(it.link)}" target="_blank" rel="noopener" class="ticker-item">${inner}</a>`
+            : `<div class="ticker-item">${inner}</div>`;
+    }).join('');
     const speed = Math.max(40, items.length * 4);
-
     return `<div class="ticker-wrap"><div class="ticker-track" style="--ticker-duration:${speed}s">${html}${html}</div></div>`;
 }
 
-function buildMetric(cat, data) {
-    const m = CAT_META[cat];
-    const score = data.ema;
-    const delta = data.delta;
+function buildHeadlineList(items, color) {
+    if (!items || !items.length) return `<div class="headline-list"><div class="headline-none">No matching headlines</div></div>`;
+    return `<div class="headline-list">${items.map(it => {
+        const tag = it.link ? 'a' : 'div';
+        const href = it.link ? ` href="${esc(it.link)}" target="_blank" rel="noopener"` : '';
+        return `<${tag}${href} class="headline-row"><span class="headline-dot" style="background:${color}"></span><span class="headline-text">${esc(it.title)}</span></${tag}>`;
+    }).join('')}</div>`;
+}
 
+function buildMetric(cat, data, headlines) {
+    const m = CAT_META[cat];
+    const score = data.ema, delta = data.delta;
     let dClass = 'flat', arrow = '', dStr = '—', dirLabel = 'stable';
-    if (delta > 0.1) {
-        dClass = 'up'; arrow = '▲'; dStr = '+' + delta.toFixed(1); dirLabel = 'rising';
-    } else if (delta < -0.1) {
-        dClass = 'down'; arrow = '▼'; dStr = delta.toFixed(1); dirLabel = 'falling';
-    }
+    if (delta > 0.1) { dClass = 'up'; arrow = '▲'; dStr = '+' + delta.toFixed(1); dirLabel = 'rising'; }
+    else if (delta < -0.1) { dClass = 'down'; arrow = '▼'; dStr = delta.toFixed(1); dirLabel = 'falling'; }
 
     return `
     <div class="metric-card ${cat} fade-in">
@@ -829,7 +760,7 @@ function buildMetric(cat, data) {
             <div class="metric-label"><span>${m.icon}</span> ${m.label}</div>
             <div class="metric-hits">${data.hits} headlines</div>
         </div>
-        <div class="metric-body">
+        <div class="metric-top-row">
             <div class="metric-score" style="color:${severityColor(score)}">${score.toFixed(1)}</div>
             <div class="metric-delta-group">
                 <div class="metric-delta ${dClass}">${arrow} ${dStr}</div>
@@ -839,52 +770,35 @@ function buildMetric(cat, data) {
         <div class="metric-bar-track">
             <div class="metric-bar-fill" style="width:${Math.min(100, score)}%;background:${severityColor(score)}"></div>
         </div>
+        ${buildHeadlineList(headlines, m.color)}
     </div>`;
 }
 
 function render(data, sources, stale = false) {
     const app = document.getElementById('app');
-    const pip = document.getElementById('statusPip');
-    const timeEl = document.getElementById('headerTime');
-
-    pip.className = 'header-pip' + (stale ? ' stale' : '');
-
-    const t = new Date(data.timestamp);
-    timeEl.textContent = t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-
+    document.getElementById('statusPip').className = 'header-pip' + (stale ? ' stale' : '');
+    document.getElementById('headerTime').textContent = new Date(data.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     const srcStr = sources.length ? sources.join(' · ') : 'cached';
-    const staleBanner = stale
-        ? '<div class="error-banner">Feed unavailable · showing last cached data</div>'
-        : '';
+    const hl = data.headlines || { war: [], resources: [], conflicts: [] };
 
     app.innerHTML = `
         ${buildTicker(data.ticker)}
-        ${staleBanner}
-        <div class="metrics">
-            ${buildMetric('war', data.war)}
-            ${buildMetric('resources', data.resources)}
-            ${buildMetric('conflicts', data.conflicts)}
+        ${stale ? '<div class="error-banner">Feed unavailable · showing last cached data</div>' : ''}
+        <div class="main-content">
+            ${buildMetric('war', data.war, hl.war)}
+            ${buildMetric('resources', data.resources, hl.resources)}
+            ${buildMetric('conflicts', data.conflicts, hl.conflicts)}
         </div>
         <div class="footer">
-            <div class="footer-meta">
-                ${data.total} headlines analyzed · ${srcStr}<br>
-                cache refreshes every 4 hours
-            </div>
+            <div class="footer-meta">${data.total} headlines analyzed · ${srcStr}<br>cache refreshes every 4 hours</div>
             <div class="footer-refresh" id="refreshBtn">↻ Force Refresh</div>
-        </div>
-    `;
-
-    document.getElementById('refreshBtn').addEventListener('click', () => {
-        localStorage.removeItem(CONFIG.CACHE_KEY);
-        init();
-    });
+        </div>`;
+    document.getElementById('refreshBtn').addEventListener('click', () => { localStorage.removeItem(CONFIG.CACHE_KEY); init(); });
 }
 
 function renderOffline() {
-    const app = document.getElementById('app');
-    const pip = document.getElementById('statusPip');
-    pip.className = 'header-pip offline';
-    app.innerHTML = `
+    document.getElementById('statusPip').className = 'header-pip offline';
+    document.getElementById('app').innerHTML = `
     <div class="loading-screen">
         <div style="font-size:32px;margin-bottom:8px">📡</div>
         <div class="loading-label">No signal</div>
@@ -896,37 +810,19 @@ function renderOffline() {
     document.getElementById('retryBtn').addEventListener('click', init);
 }
 
-// ═══════════════════════════════════════════════════
-//  MAIN
-// ═══════════════════════════════════════════════════
-
 async function init() {
-    const app = document.getElementById('app');
-    app.innerHTML = `<div class="loading-screen"><div class="loading-ring"></div><div class="loading-label">Scanning Feeds</div></div>`;
-
+    document.getElementById('app').innerHTML = `<div class="loading-screen"><div class="loading-ring"></div><div class="loading-label">Scanning Feeds</div></div>`;
     const cached = getCache();
-    if (cached) {
-        render(cached, cached.sources || []);
-        return;
-    }
+    if (cached) { render(cached, cached.sources || []); return; }
 
-    const { headlines, sources } = await fetchAllHeadlines();
+    const { items, sources } = await fetchAllHeadlines();
+    if (items.length === 0) { const stale = getStaleCache(); if (stale) render(stale, [], true); else renderOffline(); return; }
 
-    if (headlines.length === 0) {
-        const stale = getStaleCache();
-        if (stale) { render(stale, [], true); }
-        else { renderOffline(); }
-        return;
-    }
-
-    let scores = computeScores(headlines);
+    let scores = computeScores(items);
     if (!scores) { renderOffline(); return; }
-
     scores.sources = sources;
     scores = applyEMA(scores, getHistory());
-
-    setCache(scores);
-    saveHistory(scores);
+    setCache(scores); saveHistory(scores);
     render(scores, sources);
 }
 
