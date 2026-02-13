@@ -49,7 +49,6 @@
             position: relative;
         }
 
-        /* Subtle noise grain overlay */
         body::after {
             content: '';
             position: fixed;
@@ -60,7 +59,6 @@
             z-index: 9999;
         }
 
-        /* ─── HEADER ─── */
         .header {
             padding: 24px 20px 16px;
             display: flex;
@@ -114,7 +112,6 @@
             letter-spacing: 1px;
         }
 
-        /* ─── TICKER TAPE ─── */
         .ticker-wrap {
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
@@ -156,7 +153,6 @@
             to { transform: translateX(-50%); }
         }
 
-        /* ─── METRICS ─── */
         .metrics {
             padding: 20px 16px;
             display: flex;
@@ -174,7 +170,6 @@
             transition: background 0.2s;
         }
 
-        /* Subtle glow on left edge per category */
         .metric-card::before {
             content: '';
             position: absolute;
@@ -275,7 +270,6 @@
             transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* ─── FOOTER ─── */
         .footer {
             padding: 16px 20px 32px;
             text-align: center;
@@ -312,7 +306,6 @@
             color: var(--text);
         }
 
-        /* ─── STATES ─── */
         .loading-screen {
             display: flex;
             flex-direction: column;
@@ -352,7 +345,6 @@
             text-align: center;
         }
 
-        /* ─── FADE-IN ANIMATION ─── */
         .fade-in { animation: fadeUp 0.5s ease-out both; }
         .fade-in:nth-child(1) { animation-delay: 0.0s; }
         .fade-in:nth-child(2) { animation-delay: 0.08s; }
@@ -403,12 +395,10 @@ const CONFIG = {
 
 // ═══════════════════════════════════════════════════
 //  PHRASE DICTIONARIES
-//  Weight: 1 = minor, 2 = moderate, 3 = strong signal
 // ═══════════════════════════════════════════════════
 
 const DICT = {
     war: {
-        // ── Strong (3) ──
         'military strike': 3, 'air strike': 3, 'airstrike': 3, 'airstrikes': 3,
         'missile launch': 3, 'missile attack': 3, 'ballistic missile': 3,
         'nuclear test': 3, 'nuclear threat': 3, 'nuclear weapon': 3,
@@ -418,7 +408,6 @@ const DICT = {
         'genocide': 3, 'chemical weapon': 3, 'biological weapon': 3,
         'special military operation': 3, 'naval blockade': 3,
         'war crime': 3, 'war crimes': 3, 'crimes against humanity': 3,
-        // ── Moderate (2) ──
         'troops deployed': 2, 'troop deployment': 2, 'military buildup': 2,
         'military operation': 2, 'military offensive': 2, 'ground offensive': 2,
         'artillery fire': 2, 'artillery shell': 2, 'rocket attack': 2,
@@ -429,7 +418,6 @@ const DICT = {
         'civilian casualties': 2, 'civilian deaths': 2, 'mass grave': 2,
         'cluster munition': 2, 'incendiary weapon': 2, 'thermobaric': 2,
         'shelling': 2, 'bombardment': 2, 'besieged': 2,
-        // ── Minor (1) ──
         'military exercise': 1, 'naval drill': 1, 'military drill': 1,
         'defense spending': 1, 'arms deal': 1, 'weapons sale': 1,
         'military base': 1, 'air defense': 1, 'missile defense': 1,
@@ -438,14 +426,12 @@ const DICT = {
         'warplane': 1, 'fighter jet': 1, 'aircraft carrier': 1
     },
     resources: {
-        // ── Strong (3) ──
         'famine': 3, 'mass starvation': 3, 'food crisis': 3,
         'water crisis': 3, 'water shortage': 3, 'drought emergency': 3,
         'energy crisis': 3, 'power crisis': 3, 'oil embargo': 3,
         'crop failure': 3, 'harvest failure': 3, 'food emergency': 3,
         'humanitarian crisis': 3, 'humanitarian disaster': 3,
         'resource war': 3, 'water war': 3, 'famine declared': 3,
-        // ── Moderate (2) ──
         'oil shortage': 2, 'fuel shortage': 2, 'gas shortage': 2,
         'food shortage': 2, 'grain shortage': 2, 'wheat shortage': 2,
         'supply chain crisis': 2, 'supply chain disruption': 2,
@@ -458,7 +444,6 @@ const DICT = {
         'fertilizer shortage': 2, 'fertilizer crisis': 2,
         'mining disaster': 2, 'oil spill': 2, 'pipeline explosion': 2,
         'grain export ban': 2, 'food export ban': 2,
-        // ── Minor (1) ──
         'drought': 1, 'heat wave': 1, 'heatwave': 1, 'wildfire': 1,
         'crop yield': 1, 'food prices': 1, 'oil price': 1,
         'rare earth': 1, 'lithium mining': 1, 'cobalt mining': 1,
@@ -467,13 +452,11 @@ const DICT = {
         'biodiversity loss': 1, 'fish stocks': 1, 'water table': 1
     },
     conflicts: {
-        // ── Strong (3) ──
         'coup attempt': 3, "coup d'etat": 3, 'military coup': 3,
         'civil war': 3, 'martial law': 3, 'state of emergency declared': 3,
         'political assassination': 3, 'political violence': 3,
         'ethnic violence': 3, 'sectarian violence': 3,
         'terrorist attack': 3, 'terror attack': 3,
-        // ── Moderate (2) ──
         'border clash': 2, 'border conflict': 2, 'border skirmish': 2,
         'territorial dispute': 2, 'disputed territory': 2,
         'sanctions imposed': 2, 'trade war': 2, 'economic sanctions': 2,
@@ -488,7 +471,6 @@ const DICT = {
         'political crisis': 2, 'government collapse': 2, 'regime change': 2,
         'hostage': 2, 'kidnapping': 2, 'hijacking': 2,
         'curfew imposed': 2, 'internet shutdown': 2, 'media blackout': 2,
-        // ── Minor (1) ──
         'protest': 1, 'protests': 1, 'demonstration': 1, 'demonstrators': 1,
         'sanctions': 1, 'trade dispute': 1, 'tariff': 1, 'tariffs': 1,
         'political tension': 1, 'opposition arrested': 1,
@@ -574,11 +556,7 @@ function scoreHeadline(headline, category) {
     }
 
     if (!matched) return 0;
-
-    // Co-occurrence: geo entity + keyword = bonus
     if (hasGeoEntity(headline)) score += 1;
-
-    // Dampener: resolution language = reduce
     if (hasDampener(headline)) score *= 0.3;
 
     return score;
@@ -610,7 +588,6 @@ function computeScores(headlines) {
             }
         }
 
-        // Volume weighting: more coverage = amplified signal
         const volumeFactor = hits / total;
         const adjusted = raw * (1 + volumeFactor * 3);
 
@@ -620,7 +597,6 @@ function computeScores(headlines) {
         };
     }
 
-    // Dedupe & sort scored headlines for ticker
     const unique = [];
     const seen = new Set();
     scored.sort((a, b) => b.score - a.score);
@@ -680,33 +656,92 @@ function applyEMA(current, history) {
 }
 
 // ═══════════════════════════════════════════════════
-//  DATA FETCHING — dual proxy fallback
+//  DATA FETCHING — multi-proxy with fallback chain
 // ═══════════════════════════════════════════════════
 
-async function fetchFeedViaRSS2JSON(url) {
+// Proxy 1: rss2json
+async function fetchViaRSS2JSON(url) {
     const proxy = `https://api.rss2json.com/api.json?rss_url=${encodeURIComponent(url)}`;
-    const resp = await fetch(proxy);
-    if (!resp.ok) throw new Error('rss2json failed');
+    const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+    if (!resp.ok) throw new Error('rss2json HTTP ' + resp.status);
     const data = await resp.json();
-    if (data.status !== 'ok' || !data.items) throw new Error('bad data');
+    if (data.status !== 'ok' || !data.items) throw new Error('rss2json bad data');
     return data.items.map(i => i.title).filter(Boolean);
 }
 
-async function fetchFeedViaAllOrigins(url) {
+// Proxy 2: allorigins
+async function fetchViaAllOrigins(url) {
     const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-    const resp = await fetch(proxy);
-    if (!resp.ok) throw new Error('allorigins failed');
+    const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+    if (!resp.ok) throw new Error('allorigins HTTP ' + resp.status);
     const data = await resp.json();
-    if (!data.contents) throw new Error('no contents');
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(data.contents, 'text/xml');
-    return Array.from(doc.querySelectorAll('item title'))
-        .map(el => el.textContent).filter(Boolean);
+    if (!data.contents) throw new Error('allorigins no contents');
+    return parseTitlesFromXML(data.contents);
 }
 
+// Proxy 3: corsproxy.io
+async function fetchViaCorsProxy(url) {
+    const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+    const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+    if (!resp.ok) throw new Error('corsproxy HTTP ' + resp.status);
+    const text = await resp.text();
+    return parseTitlesFromXML(text);
+}
+
+// Proxy 4: cors.sh
+async function fetchViaCorsSH(url) {
+    const resp = await fetch(`https://proxy.cors.sh/${url}`, {
+        headers: { 'x-cors-api-key': 'temp_a1b2c3d4e5f6' },
+        signal: AbortSignal.timeout(8000)
+    });
+    if (!resp.ok) throw new Error('cors.sh HTTP ' + resp.status);
+    const text = await resp.text();
+    return parseTitlesFromXML(text);
+}
+
+// Proxy 5: thingproxy
+async function fetchViaThingProxy(url) {
+    const proxy = `https://thingproxy.freeboard.io/fetch/${url}`;
+    const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+    if (!resp.ok) throw new Error('thingproxy HTTP ' + resp.status);
+    const text = await resp.text();
+    return parseTitlesFromXML(text);
+}
+
+// XML parser helper
+function parseTitlesFromXML(xml) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, 'text/xml');
+    const titles = Array.from(doc.querySelectorAll('item title'))
+        .map(el => el.textContent).filter(Boolean);
+    if (titles.length === 0) {
+        // Try regex fallback for malformed XML
+        const matches = [...xml.matchAll(/<title[^>]*><!\[CDATA\[(.*?)\]\]><\/title>/gi)];
+        if (matches.length > 0) return matches.map(m => m[1]).filter(Boolean);
+        const matches2 = [...xml.matchAll(/<title[^>]*>(.*?)<\/title>/gi)];
+        return matches2.map(m => m[1]).filter(Boolean).slice(1); // skip channel title
+    }
+    return titles;
+}
+
+// Try all proxies in sequence until one works
 async function fetchFeed(url) {
-    try { return await fetchFeedViaRSS2JSON(url); } catch {}
-    try { return await fetchFeedViaAllOrigins(url); } catch {}
+    const strategies = [
+        fetchViaRSS2JSON,
+        fetchViaAllOrigins,
+        fetchViaCorsProxy,
+        fetchViaThingProxy,
+        fetchViaCorsSH
+    ];
+
+    for (const strategy of strategies) {
+        try {
+            const result = await strategy(url);
+            if (result && result.length > 0) return result;
+        } catch (e) {
+            // Continue to next proxy
+        }
+    }
     return [];
 }
 
@@ -869,14 +904,12 @@ async function init() {
     const app = document.getElementById('app');
     app.innerHTML = `<div class="loading-screen"><div class="loading-ring"></div><div class="loading-label">Scanning Feeds</div></div>`;
 
-    // Try cache first
     const cached = getCache();
     if (cached) {
         render(cached, cached.sources || []);
         return;
     }
 
-    // Fetch
     const { headlines, sources } = await fetchAllHeadlines();
 
     if (headlines.length === 0) {
