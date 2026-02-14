@@ -47,7 +47,6 @@
             -webkit-user-select: none;
             user-select: none;
             overflow-x: hidden;
-            position: relative;
         }
 
         .header {
@@ -57,57 +56,106 @@
             justify-content: space-between;
         }
 
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .header-brand { display: flex; align-items: center; gap: 10px; }
 
         .header-pip {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+            width: 8px; height: 8px; border-radius: 50%;
             background: var(--green);
             box-shadow: 0 0 6px rgba(22, 163, 74, 0.4);
             animation: pulse-pip 3s ease-in-out infinite;
         }
+        .header-pip.stale { background: var(--amber); box-shadow: 0 0 6px rgba(217, 119, 6, 0.4); }
+        .header-pip.offline { background: var(--red); box-shadow: 0 0 6px rgba(220, 38, 38, 0.4); }
 
-        .header-pip.stale {
-            background: var(--amber);
-            box-shadow: 0 0 6px rgba(217, 119, 6, 0.4);
-        }
-
-        .header-pip.offline {
-            background: var(--red);
-            box-shadow: 0 0 6px rgba(220, 38, 38, 0.4);
-        }
-
-        @keyframes pulse-pip {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
+        @keyframes pulse-pip { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
         .header h1 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 3.5px;
-            text-transform: uppercase;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 3.5px; text-transform: uppercase;
             color: var(--text-bright);
         }
 
         .header-time {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--text-dim);
-            letter-spacing: 1px;
+            font-size: 10px; color: var(--text-dim); letter-spacing: 1px;
         }
 
+        /* ─── SCALE LEGEND ─── */
+        .scale-legend {
+            margin: 0 16px 4px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .scale-legend-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px; font-weight: 600;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--text-dim);
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+
+        .scale-bar {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right,
+                var(--green) 0%, var(--green) 30%,
+                var(--amber) 30%, var(--amber) 55%,
+                var(--red-soft) 55%, var(--red-soft) 75%,
+                #b91c1c 75%, #b91c1c 100%
+            );
+            position: relative;
+        }
+
+        .scale-ticks {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0;
+            flex: 1;
+        }
+
+        .scale-legend-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .scale-segment {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .scale-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .scale-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px; font-weight: 600;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        /* ─── TICKER ─── */
         .ticker-wrap {
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
-            overflow: hidden;
-            white-space: nowrap;
+            overflow: hidden; white-space: nowrap;
             background: var(--bg-card);
         }
 
@@ -115,28 +163,18 @@
             display: inline-flex;
             animation: ticker-scroll var(--ticker-duration, 80s) linear infinite;
         }
-
         .ticker-track:hover { animation-play-state: paused; }
 
         .ticker-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            display: inline-flex; align-items: center; gap: 8px;
             padding: 10px 28px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 11px;
+            font-family: 'DM Sans', sans-serif; font-size: 11px;
             color: var(--text);
             border-right: 1px solid var(--border);
-            flex-shrink: 0;
-            text-decoration: none;
+            flex-shrink: 0; text-decoration: none;
         }
 
-        .ticker-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
+        .ticker-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
 
         @keyframes ticker-scroll {
             from { transform: translateX(0); }
@@ -145,205 +183,218 @@
 
         .main-content {
             padding: 20px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            display: flex; flex-direction: column; gap: 16px;
         }
 
+        /* ─── METRIC CARDS ─── */
         .metric-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 20px;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
 
         .metric-card::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
+            content: ''; position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
             border-radius: 12px 0 0 12px;
         }
-
         .metric-card.war::before { background: var(--war); }
         .metric-card.resources::before { background: var(--resource); }
         .metric-card.conflicts::before { background: var(--conflict); }
 
         .metric-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
+            display: flex; align-items: center;
+            justify-content: space-between; margin-bottom: 14px;
         }
 
         .metric-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
             color: var(--text-dim);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: flex; align-items: center; gap: 8px;
         }
 
         .metric-hits {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 9px;
-            color: var(--text-dim);
-            letter-spacing: 0.5px;
+            font-size: 9px; color: var(--text-dim); letter-spacing: 0.5px;
         }
 
         .metric-top-row {
-            display: flex;
-            align-items: baseline;
-            gap: 14px;
-            margin-bottom: 16px;
+            display: flex; align-items: baseline; gap: 14px;
+            margin-bottom: 6px;
+        }
+
+        .metric-score-group {
+            display: flex; align-items: baseline; gap: 4px;
         }
 
         .metric-score {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 46px;
-            font-weight: 800;
-            line-height: 1;
-            letter-spacing: -2px;
+            font-size: 46px; font-weight: 800;
+            line-height: 1; letter-spacing: -2px;
+        }
+
+        .metric-max {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px; font-weight: 600;
+            color: var(--text-dim);
+            letter-spacing: -0.5px;
         }
 
         .metric-delta-group {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+            display: flex; flex-direction: column; gap: 2px;
         }
 
         .metric-delta {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 15px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 3px;
+            font-size: 15px; font-weight: 700;
+            display: flex; align-items: center; gap: 3px;
             letter-spacing: -0.5px;
         }
-
         .metric-delta.up { color: var(--red); }
         .metric-delta.down { color: var(--green); }
         .metric-delta.flat { color: var(--text-dim); }
 
         .metric-direction {
             font-family: 'DM Sans', sans-serif;
-            font-size: 9px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            font-size: 9px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px;
         }
-
         .metric-direction.up { color: var(--red-soft); }
         .metric-direction.down { color: var(--green); }
         .metric-direction.flat { color: var(--text-dim); }
 
-        .metric-bar-track {
-            height: 3px;
-            background: var(--border);
-            border-radius: 2px;
-            margin-bottom: 16px;
-            overflow: hidden;
+        /* Severity badge */
+        .severity-badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-bottom: 14px;
         }
 
+        .severity-low { background: var(--green-dim); color: var(--green); }
+        .severity-elevated { background: var(--amber-dim); color: var(--amber); }
+        .severity-high { background: var(--red-dim); color: var(--red-soft); }
+        .severity-critical { background: rgba(185, 28, 28, 0.1); color: #b91c1c; }
+
+        .metric-bar-track {
+            height: 3px; background: var(--border);
+            border-radius: 2px; margin-bottom: 16px; overflow: hidden;
+        }
         .metric-bar-fill {
-            height: 100%;
-            border-radius: 2px;
+            height: 100%; border-radius: 2px;
             transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
+        /* ─── SPARKLINE ─── */
+        .sparkline-wrap {
+            margin-bottom: 16px;
+            position: relative;
+            height: 52px;
+            border-radius: 6px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .sparkline-label {
+            position: absolute;
+            top: 4px; left: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px; font-weight: 600;
+            letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-dim);
+            z-index: 1;
+        }
+
+        .sparkline-range {
+            position: absolute;
+            top: 4px; right: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px; font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-dim);
+            z-index: 1;
+        }
+
+        .sparkline-svg {
+            width: 100%; height: 100%;
+            display: block;
+        }
+
+        .sparkline-empty {
+            display: flex; align-items: center; justify-content: center;
+            height: 100%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px; color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        /* ─── HEADLINES ─── */
         .headline-list {
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
             border-top: 1px solid var(--border);
             padding-top: 12px;
         }
 
         .headline-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 8px 6px;
-            text-decoration: none;
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 8px 6px; text-decoration: none;
             -webkit-tap-highlight-color: transparent;
             transition: background 0.15s;
             border-radius: 6px;
-            margin-left: -6px;
-            margin-right: -6px;
+            margin-left: -6px; margin-right: -6px;
             color: inherit;
         }
-
-        .headline-row:hover {
-            background: var(--bg);
-        }
+        .headline-row:hover { background: var(--bg); }
 
         .headline-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            margin-top: 7px;
+            width: 5px; height: 5px; border-radius: 50%;
+            flex-shrink: 0; margin-top: 7px;
         }
 
         .headline-text {
             font-family: 'DM Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: var(--text-bright);
-            white-space: normal;
-            word-break: break-word;
+            font-size: 13px; font-weight: 500;
+            line-height: 1.5; color: var(--text-bright);
+            white-space: normal; word-break: break-word;
         }
-
-        .headline-row:hover .headline-text {
-            color: var(--blue);
-        }
+        .headline-row:hover .headline-text { color: var(--blue); }
 
         .headline-none {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--text-dim);
-            letter-spacing: 1px;
-            padding: 8px 0;
+            font-size: 10px; color: var(--text-dim);
+            letter-spacing: 1px; padding: 8px 0;
         }
 
-        .footer {
-            padding: 16px 20px 32px;
-            text-align: center;
-        }
+        /* ─── FOOTER ─── */
+        .footer { padding: 16px 20px 32px; text-align: center; }
 
         .footer-meta {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 9px;
-            color: var(--text-dim);
-            letter-spacing: 1px;
-            line-height: 1.8;
+            font-size: 9px; color: var(--text-dim);
+            letter-spacing: 1px; line-height: 1.8;
         }
 
         .footer-refresh {
-            display: inline-block;
-            margin-top: 12px;
+            display: inline-block; margin-top: 12px;
             padding: 8px 20px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
             color: var(--text-dim);
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            cursor: pointer;
+            border-radius: 6px; cursor: pointer;
             -webkit-tap-highlight-color: transparent;
             transition: all 0.15s;
         }
-
         .footer-refresh:active {
             background: var(--bg-card-hover);
             border-color: var(--border-bright);
@@ -351,42 +402,32 @@
         }
 
         .loading-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 70vh;
-            gap: 24px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            min-height: 70vh; gap: 24px;
         }
 
         .loading-ring {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border: 2px solid var(--border);
             border-top-color: var(--text);
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
-
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .loading-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--text-dim);
-            letter-spacing: 3px;
-            text-transform: uppercase;
+            font-size: 10px; color: var(--text-dim);
+            letter-spacing: 3px; text-transform: uppercase;
         }
 
         .error-banner {
-            margin: 0 16px 12px;
-            padding: 10px 14px;
+            margin: 0 16px 12px; padding: 10px 14px;
             border-radius: 8px;
             background: var(--red-dim);
             border: 1px solid rgba(220, 38, 38, 0.15);
-            font-size: 11px;
-            color: var(--red);
-            text-align: center;
+            font-size: 11px; color: var(--red); text-align: center;
         }
 
         .fade-in { animation: fadeUp 0.5s ease-out both; }
@@ -419,9 +460,11 @@
 
 <script>
 const CONFIG = {
-    CACHE_KEY: 'gti_cache_v2',
-    HISTORY_KEY: 'gti_history_v2',
+    CACHE_KEY: 'gti_cache_v3',
+    HISTORY_KEY: 'gti_history_v3',
+    TIMESERIES_KEY: 'gti_timeseries_v3',
     CACHE_TTL: 4 * 60 * 60 * 1000,
+    TIMESERIES_TTL: 24 * 60 * 60 * 1000,
     EMA_ALPHA: 0.3,
     SCORE_MIDPOINT: 15,
     SCORE_STEEPNESS: 0.15,
@@ -518,50 +561,41 @@ const DICT = {
 };
 
 const DAMPENERS = [
-    'ceasefire', 'peace deal', 'peace agreement', 'peace talks',
-    'peace treaty', 'peace process', 'de-escalation', 'deescalation',
-    'diplomatic solution', 'truce', 'armistice', 'talks resume',
-    'agreement signed', 'treaty signed', 'reconciliation',
-    'troops withdraw', 'withdrawal complete', 'stand down',
-    'aid delivered', 'humanitarian aid arrives', 'relief effort',
-    'reconstruction', 'rebuilding', 'recovery effort',
-    'relations normalized', 'diplomatic ties restored',
-    'prisoners released', 'prisoner exchange', 'hostages freed'
+    'ceasefire','peace deal','peace agreement','peace talks','peace treaty','peace process',
+    'de-escalation','deescalation','diplomatic solution','truce','armistice','talks resume',
+    'agreement signed','treaty signed','reconciliation','troops withdraw','withdrawal complete',
+    'stand down','aid delivered','humanitarian aid arrives','relief effort','reconstruction',
+    'rebuilding','recovery effort','relations normalized','diplomatic ties restored',
+    'prisoners released','prisoner exchange','hostages freed'
 ];
 
 const EXCLUSIONS = [
-    'movie', 'film review', 'book review', 'album review', 'box office',
-    'trailer release', 'celebrity', 'entertainment', 'red carpet',
-    'sports', 'soccer', 'football score', 'basketball', 'tennis',
-    'championship', 'world cup final', 'super bowl',
-    'grammy', 'oscar', 'emmy', 'tony award', 'golden globe',
-    'tv show', 'series premiere', 'season finale', 'netflix', 'streaming',
-    'video game', 'gaming', 'esports',
-    'fashion week', 'recipe', 'cooking', 'lifestyle', 'wellness',
-    'horoscope', 'zodiac', 'anniversary of', 'years ago today',
-    'obituary for', 'in memoriam', 'stock market today',
-    'dow jones', 'nasdaq', 'cryptocurrency', 'bitcoin price'
+    'movie','film review','book review','album review','box office','trailer release',
+    'celebrity','entertainment','red carpet','sports','soccer','football score','basketball',
+    'tennis','championship','world cup final','super bowl','grammy','oscar','emmy',
+    'tony award','golden globe','tv show','series premiere','season finale','netflix',
+    'streaming','video game','gaming','esports','fashion week','recipe','cooking',
+    'lifestyle','wellness','horoscope','zodiac','anniversary of','years ago today',
+    'obituary for','in memoriam','stock market today','dow jones','nasdaq',
+    'cryptocurrency','bitcoin price'
 ];
 
 const GEO_ENTITIES = [
-    'ukraine', 'russia', 'china', 'taiwan', 'north korea', 'south korea',
-    'iran', 'israel', 'palestine', 'gaza', 'west bank', 'lebanon',
-    'syria', 'iraq', 'afghanistan', 'yemen', 'libya', 'somalia',
-    'sudan', 'south sudan', 'ethiopia', 'eritrea', 'congo', 'drc',
-    'myanmar', 'kashmir', 'xinjiang', 'tibet', 'hong kong',
-    'nato', 'european union', 'pentagon', 'kremlin',
-    'south china sea', 'strait of hormuz', 'taiwan strait',
-    'sahel', 'horn of africa', 'middle east', 'persian gulf',
-    'india', 'pakistan', 'mexico', 'venezuela', 'colombia',
-    'nigeria', 'mozambique', 'mali', 'burkina faso', 'niger',
-    'philippines', 'haiti', 'hezbollah', 'hamas', 'houthi',
-    'wagner', 'islamic state', 'isis', 'isil', 'al qaeda', 'al-qaeda',
-    'red sea', 'black sea', 'baltic', 'arctic', 'mediterranean'
+    'ukraine','russia','china','taiwan','north korea','south korea','iran','israel',
+    'palestine','gaza','west bank','lebanon','syria','iraq','afghanistan','yemen',
+    'libya','somalia','sudan','south sudan','ethiopia','eritrea','congo','drc',
+    'myanmar','kashmir','xinjiang','tibet','hong kong','nato','european union',
+    'pentagon','kremlin','south china sea','strait of hormuz','taiwan strait',
+    'sahel','horn of africa','middle east','persian gulf','india','pakistan','mexico',
+    'venezuela','colombia','nigeria','mozambique','mali','burkina faso','niger',
+    'philippines','haiti','hezbollah','hamas','houthi','wagner','islamic state',
+    'isis','isil','al qaeda','al-qaeda','red sea','black sea','baltic','arctic',
+    'mediterranean'
 ];
 
-function isExcluded(t) { const h = t.toLowerCase(); return EXCLUSIONS.some(e => h.includes(e)); }
-function hasDampener(t) { const h = t.toLowerCase(); return DAMPENERS.some(d => h.includes(d)); }
-function hasGeoEntity(t) { const h = t.toLowerCase(); return GEO_ENTITIES.some(e => h.includes(e)); }
+function isExcluded(t) { return EXCLUSIONS.some(e => t.toLowerCase().includes(e)); }
+function hasDampener(t) { return DAMPENERS.some(d => t.toLowerCase().includes(d)); }
+function hasGeoEntity(t) { return GEO_ENTITIES.some(e => t.toLowerCase().includes(e)); }
 
 function scoreHeadline(title, category) {
     const h = title.toLowerCase();
@@ -582,19 +616,19 @@ function computeScores(items) {
     const total = valid.length;
     if (total === 0) return null;
 
-    const categories = ['war', 'resources', 'conflicts'];
+    const cats = ['war', 'resources', 'conflicts'];
     const results = {};
     const scored = [];
 
-    for (const cat of categories) {
+    for (const cat of cats) {
         let raw = 0, hits = 0;
         for (const item of valid) {
             const s = scoreHeadline(item.title, cat);
             if (s > 0) { hits++; raw += s; scored.push({ title: item.title, link: item.link, category: cat, score: s }); }
         }
-        const volumeFactor = hits / total;
-        const adjusted = raw * (1 + volumeFactor * 3);
-        results[cat] = { score: Math.round(sigmoid(adjusted, CONFIG.SCORE_MIDPOINT, CONFIG.SCORE_STEEPNESS) * 10) / 10, raw, hits };
+        const vf = hits / total;
+        const adj = raw * (1 + vf * 3);
+        results[cat] = { score: Math.round(sigmoid(adj, CONFIG.SCORE_MIDPOINT, CONFIG.SCORE_STEEPNESS) * 10) / 10, raw, hits };
     }
 
     const unique = [];
@@ -608,12 +642,12 @@ function computeScores(items) {
     return { war: results.war, resources: results.resources, conflicts: results.conflicts, total, ticker: unique.slice(0, 24), headlines: grouped, timestamp: Date.now() };
 }
 
+// ── EMA ──
 function getHistory() { try { return JSON.parse(localStorage.getItem(CONFIG.HISTORY_KEY)); } catch { return null; } }
 function saveHistory(d) { try { localStorage.setItem(CONFIG.HISTORY_KEY, JSON.stringify(d)); } catch {} }
 
 function applyEMA(current, history) {
-    const a = CONFIG.EMA_ALPHA;
-    const result = { ...current };
+    const a = CONFIG.EMA_ALPHA, result = { ...current };
     for (const cat of ['war', 'resources', 'conflicts']) {
         if (history && history[cat] && typeof history[cat].ema === 'number') {
             const prev = history[cat].ema;
@@ -626,10 +660,30 @@ function applyEMA(current, history) {
     return result;
 }
 
-// ═══════════════════════════════════════════════════
-//  FETCHING — 5 proxy fallback chain
-// ═══════════════════════════════════════════════════
+// ── TIME SERIES ──
+function getTimeSeries() {
+    try {
+        const arr = JSON.parse(localStorage.getItem(CONFIG.TIMESERIES_KEY)) || [];
+        const cutoff = Date.now() - CONFIG.TIMESERIES_TTL;
+        return arr.filter(p => p.t > cutoff);
+    } catch { return []; }
+}
 
+function addTimeSeriesPoint(data) {
+    const series = getTimeSeries();
+    series.push({
+        t: data.timestamp,
+        war: data.war.ema,
+        resources: data.resources.ema,
+        conflicts: data.conflicts.ema
+    });
+    // Keep max 48 points (generous)
+    const trimmed = series.slice(-48);
+    try { localStorage.setItem(CONFIG.TIMESERIES_KEY, JSON.stringify(trimmed)); } catch {}
+    return trimmed;
+}
+
+// ── FETCHING ──
 async function fetchViaRSS2JSON(url) {
     const r = await fetch(`https://api.rss2json.com/api.json?rss_url=${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(8000) });
     if (!r.ok) throw new Error(r.status);
@@ -665,13 +719,11 @@ async function fetchViaCorsSH(url) {
 }
 
 function parseItemsFromXML(xml) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xml, 'text/xml');
+    const doc = new DOMParser().parseFromString(xml, 'text/xml');
     const items = Array.from(doc.querySelectorAll('item'));
     if (items.length > 0) {
         return items.map(el => {
-            const tEl = el.querySelector('title');
-            const lEl = el.querySelector('link');
+            const tEl = el.querySelector('title'), lEl = el.querySelector('link');
             const title = tEl ? tEl.textContent.trim() : '';
             let link = lEl ? lEl.textContent.trim() : '';
             if (!link && lEl && lEl.nextSibling) link = lEl.nextSibling.textContent.trim();
@@ -679,8 +731,7 @@ function parseItemsFromXML(xml) {
         }).filter(i => i.title);
     }
     const results = [];
-    const blocks = xml.split(/<item[\s>]/i).slice(1);
-    for (const b of blocks) {
+    for (const b of xml.split(/<item[\s>]/i).slice(1)) {
         const tm = b.match(/<title[^>]*>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/i);
         const lm = b.match(/<link[^>]*>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/link>/i);
         if (tm && tm[1]) results.push({ title: tm[1].trim(), link: (lm && lm[1]) ? lm[1].trim() : '' });
@@ -711,9 +762,9 @@ function setCache(d) { try { localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringi
 // ═══════════════════════════════════════════════════
 
 const CAT_META = {
-    war:       { label: 'Acts of War',       icon: '⚔',  color: 'var(--war)' },
-    resources: { label: 'Resource Depletion', icon: '⛽', color: 'var(--resource)' },
-    conflicts: { label: 'Conflicts',          icon: '⚡', color: 'var(--conflict)' }
+    war:       { label: 'Acts of War',       icon: '⚔',  color: 'var(--war)',      hex: '#dc2626', hexDim: 'rgba(220,38,38,0.15)' },
+    resources: { label: 'Resource Depletion', icon: '⛽', color: 'var(--resource)', hex: '#d97706', hexDim: 'rgba(217,119,6,0.15)' },
+    conflicts: { label: 'Conflicts',          icon: '⚡', color: 'var(--conflict)', hex: '#2563eb', hexDim: 'rgba(37,99,235,0.15)' }
 };
 
 function severityColor(s) {
@@ -723,7 +774,78 @@ function severityColor(s) {
     return '#b91c1c';
 }
 
+function severityLabel(s) {
+    if (s < 30) return { text: 'Low', cls: 'severity-low' };
+    if (s < 55) return { text: 'Elevated', cls: 'severity-elevated' };
+    if (s < 75) return { text: 'High', cls: 'severity-high' };
+    return { text: 'Critical', cls: 'severity-critical' };
+}
+
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function buildScaleLegend() {
+    return `<div class="scale-legend">
+        <span class="scale-legend-label">Scale</span>
+        <div class="scale-legend-row">
+            <div class="scale-segment"><span class="scale-dot" style="background:var(--green)"></span><span class="scale-text">0–29 Low</span></div>
+            <div class="scale-segment"><span class="scale-dot" style="background:var(--amber)"></span><span class="scale-text">30–54 Elevated</span></div>
+            <div class="scale-segment"><span class="scale-dot" style="background:var(--red-soft)"></span><span class="scale-text">55–74 High</span></div>
+            <div class="scale-segment"><span class="scale-dot" style="background:#b91c1c"></span><span class="scale-text">75–100 Critical</span></div>
+        </div>
+    </div>`;
+}
+
+function buildSparkline(cat, timeSeries) {
+    const points = timeSeries.map(p => ({ t: p.t, v: p[cat] })).filter(p => typeof p.v === 'number');
+
+    if (points.length < 2) {
+        return `<div class="sparkline-wrap">
+            <span class="sparkline-label">24h trend</span>
+            <div class="sparkline-empty">Collecting data…</div>
+        </div>`;
+    }
+
+    const meta = CAT_META[cat];
+    const W = 400, H = 52, PAD_TOP = 18, PAD_BOT = 4, PAD_LR = 2;
+    const drawW = W - PAD_LR * 2, drawH = H - PAD_TOP - PAD_BOT;
+
+    const vals = points.map(p => p.v);
+    let minV = Math.min(...vals), maxV = Math.max(...vals);
+    // Ensure some range
+    if (maxV - minV < 2) { minV -= 1; maxV += 1; }
+    minV = Math.max(0, minV - 2);
+    maxV = Math.min(100, maxV + 2);
+
+    const tMin = points[0].t, tMax = points[points.length - 1].t;
+    const tRange = tMax - tMin || 1;
+
+    const coords = points.map(p => {
+        const x = PAD_LR + ((p.t - tMin) / tRange) * drawW;
+        const y = PAD_TOP + drawH - ((p.v - minV) / (maxV - minV)) * drawH;
+        return { x, y };
+    });
+
+    const linePoints = coords.map(c => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' ');
+    const areaPoints = `${coords[0].x.toFixed(1)},${H} ${linePoints} ${coords[coords.length-1].x.toFixed(1)},${H}`;
+
+    // Trend direction for color
+    const first = vals[0], last = vals[vals.length - 1];
+    const trending = last > first + 0.5 ? 'up' : last < first - 0.5 ? 'down' : 'flat';
+    const strokeColor = trending === 'up' ? '#dc2626' : trending === 'down' ? '#16a34a' : '#9ca3af';
+    const fillColor = trending === 'up' ? 'rgba(220,38,38,0.08)' : trending === 'down' ? 'rgba(22,163,74,0.08)' : 'rgba(156,163,175,0.06)';
+
+    const rangeText = `${minV.toFixed(0)}–${maxV.toFixed(0)}`;
+
+    return `<div class="sparkline-wrap">
+        <span class="sparkline-label">24h trend</span>
+        <span class="sparkline-range">${rangeText}</span>
+        <svg class="sparkline-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+            <polygon points="${areaPoints}" fill="${fillColor}" />
+            <polyline points="${linePoints}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+            <circle cx="${coords[coords.length-1].x.toFixed(1)}" cy="${coords[coords.length-1].y.toFixed(1)}" r="3" fill="${strokeColor}" />
+        </svg>
+    </div>`;
+}
 
 function buildTicker(items) {
     if (!items || !items.length) return '';
@@ -747,9 +869,11 @@ function buildHeadlineList(items, color) {
     }).join('')}</div>`;
 }
 
-function buildMetric(cat, data, headlines) {
+function buildMetric(cat, data, headlines, timeSeries) {
     const m = CAT_META[cat];
     const score = data.ema, delta = data.delta;
+    const sev = severityLabel(score);
+
     let dClass = 'flat', arrow = '', dStr = '—', dirLabel = 'stable';
     if (delta > 0.1) { dClass = 'up'; arrow = '▲'; dStr = '+' + delta.toFixed(1); dirLabel = 'rising'; }
     else if (delta < -0.1) { dClass = 'down'; arrow = '▼'; dStr = delta.toFixed(1); dirLabel = 'falling'; }
@@ -761,20 +885,25 @@ function buildMetric(cat, data, headlines) {
             <div class="metric-hits">${data.hits} headlines</div>
         </div>
         <div class="metric-top-row">
-            <div class="metric-score" style="color:${severityColor(score)}">${score.toFixed(1)}</div>
+            <div class="metric-score-group">
+                <div class="metric-score" style="color:${severityColor(score)}">${score.toFixed(1)}</div>
+                <div class="metric-max">/100</div>
+            </div>
             <div class="metric-delta-group">
                 <div class="metric-delta ${dClass}">${arrow} ${dStr}</div>
                 <div class="metric-direction ${dClass}">${dirLabel}</div>
             </div>
         </div>
+        <div class="severity-badge ${sev.cls}">${sev.text}</div>
         <div class="metric-bar-track">
             <div class="metric-bar-fill" style="width:${Math.min(100, score)}%;background:${severityColor(score)}"></div>
         </div>
+        ${buildSparkline(cat, timeSeries)}
         ${buildHeadlineList(headlines, m.color)}
     </div>`;
 }
 
-function render(data, sources, stale = false) {
+function render(data, sources, timeSeries, stale = false) {
     const app = document.getElementById('app');
     document.getElementById('statusPip').className = 'header-pip' + (stale ? ' stale' : '');
     document.getElementById('headerTime').textContent = new Date(data.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
@@ -784,10 +913,11 @@ function render(data, sources, stale = false) {
     app.innerHTML = `
         ${buildTicker(data.ticker)}
         ${stale ? '<div class="error-banner">Feed unavailable · showing last cached data</div>' : ''}
+        ${buildScaleLegend()}
         <div class="main-content">
-            ${buildMetric('war', data.war, hl.war)}
-            ${buildMetric('resources', data.resources, hl.resources)}
-            ${buildMetric('conflicts', data.conflicts, hl.conflicts)}
+            ${buildMetric('war', data.war, hl.war, timeSeries)}
+            ${buildMetric('resources', data.resources, hl.resources, timeSeries)}
+            ${buildMetric('conflicts', data.conflicts, hl.conflicts, timeSeries)}
         </div>
         <div class="footer">
             <div class="footer-meta">${data.total} headlines analyzed · ${srcStr}<br>cache refreshes every 4 hours</div>
@@ -810,20 +940,41 @@ function renderOffline() {
     document.getElementById('retryBtn').addEventListener('click', init);
 }
 
+// ═══════════════════════════════════════════════════
+//  MAIN
+// ═══════════════════════════════════════════════════
+
 async function init() {
     document.getElementById('app').innerHTML = `<div class="loading-screen"><div class="loading-ring"></div><div class="loading-label">Scanning Feeds</div></div>`;
+
+    // Try cache
     const cached = getCache();
-    if (cached) { render(cached, cached.sources || []); return; }
+    if (cached) {
+        const ts = getTimeSeries();
+        render(cached, cached.sources || [], ts);
+        return;
+    }
 
     const { items, sources } = await fetchAllHeadlines();
-    if (items.length === 0) { const stale = getStaleCache(); if (stale) render(stale, [], true); else renderOffline(); return; }
+
+    if (items.length === 0) {
+        const stale = getStaleCache();
+        const ts = getTimeSeries();
+        if (stale) { render(stale, [], ts, true); }
+        else { renderOffline(); }
+        return;
+    }
 
     let scores = computeScores(items);
     if (!scores) { renderOffline(); return; }
+
     scores.sources = sources;
     scores = applyEMA(scores, getHistory());
-    setCache(scores); saveHistory(scores);
-    render(scores, sources);
+
+    setCache(scores);
+    saveHistory(scores);
+    const ts = addTimeSeriesPoint(scores);
+    render(scores, sources, ts);
 }
 
 init();
